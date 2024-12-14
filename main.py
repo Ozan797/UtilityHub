@@ -24,6 +24,19 @@ def main():
         help="Display CPU usage"  # Help text for this flag
     )
     
+    monitor_parser.add_argument(
+        "--memory",  # Flag name
+        action="store_true",  # Makes it a True/False flag
+        help="Display memory usage"  # Help text for this flag
+    )
+    
+    monitor_parser.add_argument(
+        "--disk",  # Flag name
+        action="store_true",  # Makes it a True/False flag
+        help="Display disk usage"  # Help text for this flag
+    )
+    
+    
     monitor_parser.set_defaults(func=run_monitor)
 
     args = parser.parse_args()
@@ -38,8 +51,13 @@ def main():
 def run_monitor(args):
     if args.cpu:
         monitor.get_cpu_usage()  # Call your CPU function in cli/monitor.py
-    else:
-        print("No flags provided. Use --cpu to display CPU usage.")
+    if args.memory:
+        monitor.get_memory_usage()
+    if args.disk:
+        monitor.get_disk_usage()
+    
+    if not (args.cpu or args.memory or args.disk):
+        print("No flags provided. Use --help for flag commands")
 
 
 # Entry Point of the Script
