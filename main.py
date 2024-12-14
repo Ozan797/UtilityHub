@@ -1,5 +1,7 @@
 import argparse
 from cli import monitor
+import time
+import os
 
 def main():
     parser = argparse.ArgumentParser(
@@ -60,22 +62,33 @@ def main():
 
 # Function to Handle the 'monitor' Command
 def run_monitor(args):
-    if args.all:
-        monitor.get_cpu_usage()
-        monitor.get_memory_usage()
-        monitor.get_disk_usage()
-    else:
-        if args.cpu:
-            monitor.get_cpu_usage()  # Call your CPU function in cli/monitor.py
-        if args.memory:
+    while True:
+        os.system('cls' if os.name == 'nt' else 'clear') # cls for windows, clear for linux/mac
+        
+        print("=== System Resource Monitor === \n")
+        if args.all:
+            monitor.get_cpu_usage()
             monitor.get_memory_usage()
-        if args.disk:
             monitor.get_disk_usage()
-    
-        if not (args.cpu or args.memory or args.disk):
+        else:
+            if args.cpu:
+                monitor.get_cpu_usage()  # Call your CPU function in cli/monitor.py
+            if args.memory:
+                monitor.get_memory_usage()
+            if args.disk:
+                monitor.get_disk_usage()
+        
+        if not (args.cpu or args.memory or args.disk or args.all):
             print("No flags provided. Use --help for flag commands")
-
-
+            break
+        
+        # If --sleep is provided
+        if args.sleep:
+            print("\nRefreshing stats in {} seconds...".format(args.sleep))
+            time.sleep(args.sleep)
+        else:
+            break
+        
 # Entry Point of the Script
 if __name__ == "__main__":
     main()
