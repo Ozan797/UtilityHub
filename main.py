@@ -42,6 +42,12 @@ def main():
         help="Display full system usage"
     )
     
+    monitor_parser.add_argument(
+        "--sleep",
+        type=int,
+        help="Update stats every N second"
+    )
+    
     monitor_parser.set_defaults(func=run_monitor)
 
     args = parser.parse_args()

@@ -14,8 +14,7 @@ def get_memory_usage():
     free_memory = round(memory.available / (1024 ** 3), 2)
     print(f"Memory Usage: {used_memory} GB used / {total_memory} GB total (Free: {free_memory} GB)")
 
-    
-    
+
 def get_disk_usage():
     """Get disk usage"""
     disk = psutil.disk_usage("/")
