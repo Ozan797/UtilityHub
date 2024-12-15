@@ -60,8 +60,14 @@ def main():
         action="store_true", 
         help="Save stats to a log file"
     )
-
     
+    monitor_parser.add_argument(
+        "--threshold", 
+        type=int, 
+        help="Set a CPU usage threshold for notifications"
+    )
+
+
     monitor_parser.set_defaults(func=run_monitor)
 
     args = parser.parse_args()
@@ -82,12 +88,12 @@ def run_monitor(args):
         
         # Display stats
         if args.all:
-            monitor.get_cpu_usage(log=args.log)
+            monitor.get_cpu_usage(log=args.log, threshold=args.threshold)
             monitor.get_memory_usage(log=args.log)
             monitor.get_disk_usage(log=args.log)
         else:
             if args.cpu:
-                monitor.get_cpu_usage(log=args.log)
+                monitor.get_cpu_usage(log=args.log, threshold=args.threshold)
             if args.memory:
                 monitor.get_memory_usage(log=args.log)
             if args.disk:
