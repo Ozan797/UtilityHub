@@ -1,6 +1,8 @@
 from colorama import init, Fore, Style
 import psutil
 from datetime import datetime
+import subprocess
+import platform
 
 init(autoreset=True)
 
@@ -12,6 +14,28 @@ def log_stats(stat_type, stat_value):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         log_file.write(f"[{timestamp}] {stat_type}: {stat_value}\n")
 
+def send_notification(title, message):
+    """Sends a desktop notification based on the operating system."""
+    os_name = platform.system()
+    
+    try:
+        if os_name == "Darwin":  # macOS
+            subprocess.run([
+                "osascript", "-e",
+                f'display notification "{message}" with title "{title}"'
+            ], check=True)
+        elif os_name == "Windows":
+            from plyer import notification
+            notification.notify(title=title, message=message, timeout=5)
+        elif os_name == "Linux":
+            subprocess.run([
+                "notify-send", title, message
+            ], check=True)
+        else:
+            print("Notifications are not supported on this OS.")
+    except Exception as e:
+        print(f"Failed to send notification: {e}")
+
 def print_header(title):
     """Prints a styled header with a border."""
     border = "=" * (len(title) + 4)
@@ -19,13 +43,16 @@ def print_header(title):
     print(Fore.CYAN + Style.BRIGHT + f"| {title} |")
     print(Fore.CYAN + Style.BRIGHT + border)
 
-def get_cpu_usage(log=False):
+def get_cpu_usage(log=False ,threshold = None):
     """Displays and optionally logs CPU usage percentage."""
     print_header("CPU USAGE")
     cpu_usage = psutil.cpu_percent()
     print(Fore.YELLOW + f"CPU Usage: {cpu_usage}%\n")
     if log:
         log_stats("CPU Usage", f"{cpu_usage}%")
+    
+    if threshold and cpu_usage > threshold:
+        send_notification("High CPU Usage 🚨", f"CPU Usage is at {cpu_usage}%")
 
 def get_memory_usage(log=False):
     """Displays and optionally logs memory usage."""
