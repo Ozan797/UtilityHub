@@ -25,6 +25,11 @@ def main():
         help="Monitor system resources (CPU, Memory, Disk)"
     )
     
+    process_parser = subparser.add_parser(
+        "process",
+        help="Manage system processes"
+    )
+    
     monitor_parser.add_argument(
         "--cpu",  # Flag name
         action="store_true",  # Makes it a True/False flag
@@ -67,8 +72,20 @@ def main():
         help="Set a CPU usage threshold for notifications"
     )
 
+    process_parser.add_argument(
+        "--list", action="store_true", help="List all active processes"
+    )
+
+    process_parser.add_argument(
+        "--kill", type=int, help="Kill a process by its PID"
+    )
+
+    process_parser.add_argument(
+        "--filter", type=str, help="Filter processes by name"
+    )
 
     monitor_parser.set_defaults(func=run_monitor)
+    process_parser.set_defaults(func=run_process_manager)
 
     args = parser.parse_args()
 
