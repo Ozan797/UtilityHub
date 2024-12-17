@@ -43,7 +43,7 @@ A powerful and user-friendly **Command-Line Interface (CLI)** tool written in Py
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/Ozan797/UtilityHub.git
-   cd system-monitor-cli
+   cd UtilityHub
    ```
 
 2. **Create a Virtual Environment** (recommended):
@@ -141,42 +141,6 @@ python main.py process --list --filter chrome
 **Monitor network activity with 3-second updates**:
 ```bash
 python main.py network --sleep 3
-```
-
----
-
-## 📷 **Screenshots**
-
-### System Monitoring
-```
-=== System Resource Monitor ===
-
-====================
-|     CPU USAGE     |
-====================
-CPU Usage: 23%
-
-====================
-|   MEMORY USAGE    |
-====================
-Used: 4.2 GB / Total: 16.0 GB (Free: 11.8 GB)
-
-====================
-|    DISK USAGE     |
-====================
-Used: 120.5 GB / Total: 500.0 GB (Free: 379.5 GB)
-```
-
-### Process Management
-```
-====================
-|   ACTIVE PROCESSES   |
-====================
-PID        Name                      CPU %      Memory %
-------------------------------------------------------------
-1234       python                    0.00       1.23
-5678       chrome                    12.50      5.67
-91011      vscode                    0.10       2.32
 ```
 
 ---
