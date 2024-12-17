@@ -5,6 +5,7 @@ import time
 import os
 from tqdm import tqdm
 from colorama import init, Fore, Style
+from cli.network import show_network_activity
 
 
 init(autoreset=True)
@@ -29,6 +30,11 @@ def main():
     process_parser = subparser.add_parser(
         "process",
         help="Manage system processes"
+    )
+    
+    network_parser = subparser.add_parser(
+    "network",
+    help="Monitor network activity (bytes sent/received)"
     )
     
     monitor_parser.add_argument(
@@ -85,8 +91,13 @@ def main():
         "--filter", type=str, help="Filter processes by name"
     )
 
+    network_parser.add_argument(
+        "--sleep", type=int, help="Update stats every N seconds"
+    )
+
     monitor_parser.set_defaults(func=run_monitor)
     process_parser.set_defaults(func=run_process_manager)
+    network_parser.set_defaults(func=run_network_monitor)
 
     args = parser.parse_args()
 
@@ -146,6 +157,20 @@ def run_process_manager(args):
         kill_process(args.kill)
     else:
         print("No valid option provided. Use --list to view processes or --kill <pid> to terminate a process.")
+
+# Function for 'network' command
+def run_network_monitor(args):
+    """
+    Handles the 'network' subcommand.
+    """
+    while True:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        show_network_activity()
+        
+        if args.sleep:
+            time.sleep(args.sleep)
+        else:
+            break
 
 # Entry Point of the Script
 if __name__ == "__main__":
