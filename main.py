@@ -1,5 +1,6 @@
 import argparse
 from cli import monitor
+from cli.process import list_processes, kill_process
 import time
 import os
 from tqdm import tqdm
@@ -133,6 +134,19 @@ def run_monitor(args):
         else:
             break
         
+        
+# Function to Handle the 'process' Command
+def run_process_manager(args):
+    """
+    Handles the 'process' subcommand based on provided arguments.
+    """
+    if args.list:
+        list_processes(filter_name=args.filter)
+    elif args.kill:
+        kill_process(args.kill)
+    else:
+        print("No valid option provided. Use --list to view processes or --kill <pid> to terminate a process.")
+
 # Entry Point of the Script
 if __name__ == "__main__":
     main()
